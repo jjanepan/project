@@ -1,42 +1,57 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>MakeupMate</title>
-    <!-- Link to custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/makeupmate.css' %}" />
-  </head>
-  <body>
-    {% if user.is_authenticated %}
-      <p>
-        Hi {{ user.username }}!
-        <form method="post" action="{% url 'logout' %}" style="display:inline;">
-          {% csrf_token %}
-          <button type="submit">Log out</button>
-        </form>
-      </p>
-    {% else %}
-      <a href="{% url 'login' %}">Log in</a> |
-      <a href="{% url 'signup' %}">Sign up</a>
-    {% endif %}
-
-    <hr />
-
-    <nav>
-      <a href="{% url 'product-list' %}">My Products</a> |
-      <a href="{% url 'product-add' %}">Add Product</a> |
-      <a href="{% url 'routine-list' %}">My Routines</a> |
-      <a href="{% url 'routine-add' %}">Create Routine</a> |
-      <a href="{% url 'usage-stats' %}">Usage Stats</a> |
+{# 
+  base.html
+  
+  main base template for MakeupMate.
+  It provides:
+  - The page structure (HTML, head, body)
+  - The top navigation bar with links (login, signup, products, routines, stats, explore users, feed)
+  - A block tag `{% block content %}` for child templates to inject their content
+  
+  It also loads the custom CSS file from static files.
+  #}
+  
+  {% load static %}
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>MakeupMate</title>
+      <!-- Link to custom CSS -->
+      <link rel="stylesheet" href="{% static 'css/makeupmate.css' %}" />
+    </head>
+    <body>
+      <!-- User greeting and authentication links -->
       {% if user.is_authenticated %}
-        <a href="{% url 'user-list' %}">Explore Users</a> |
-        <a href="{% url 'feed' %}">My Feed</a>
+        <p>
+          Hi {{ user.username }}!
+          <form method="post" action="{% url 'logout' %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Log out</button>
+          </form>
+        </p>
+      {% else %}
+        <a href="{% url 'login' %}">Log in</a> |
+        <a href="{% url 'signup' %}">Sign up</a>
       {% endif %}
-    </nav>
-
-    <hr />
-
-    {% block content %}{% endblock %}
-  </body>
-</html>
-
+  
+      <hr />
+  
+      <!-- Navigation bar -->
+      <nav>
+        <a href="{% url 'product-list' %}">My Products</a> |
+        <a href="{% url 'product-add' %}">Add Product</a> |
+        <a href="{% url 'routine-list' %}">My Routines</a> |
+        <a href="{% url 'routine-add' %}">Create Routine</a> |
+        <a href="{% url 'usage-stats' %}">Usage Stats</a> |
+        {% if user.is_authenticated %}
+          <a href="{% url 'user-list' %}">Explore Users</a> |
+          <a href="{% url 'feed' %}">My Feed</a>
+        {% endif %}
+      </nav>
+  
+      <hr />
+  
+      <!-- Page-specific content block -->
+      {% block content %}{% endblock %}
+    </body>
+  </html>
+  

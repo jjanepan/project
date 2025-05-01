@@ -1,5 +1,12 @@
-{% extends 'project/base.html' %} {% block content %}
+{# routine_steps_form.html This template allows the user to manage (add, edit,
+delete) steps for a routine. It renders a Django inline formset for RoutineItems
+and displays: - A table of products, step orders, notes, and delete checkboxes -
+A submit button to save changes - A link to return to the routine detail page It
+extends the base template and expects: - routine (Routine object) - formset
+(inline formset for RoutineItem) #} {% extends 'project/base.html' %} {% block
+content %}
 <h2>Manage Steps for {{ routine.name }}</h2>
+
 <form method="post">
   {% csrf_token %} {{ formset.management_form }}
   <table>
@@ -24,6 +31,7 @@
   </table>
   <button type="submit">Save Steps</button>
 </form>
+
 <p>
   <a href="{% url 'routine-detail' routine.pk %}"> ← Back to Routine </a>
 </p>
