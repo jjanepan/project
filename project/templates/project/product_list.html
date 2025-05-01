@@ -1,77 +1,91 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>MakeupMate</title>
-    <link rel="stylesheet" href="{% static 'css/makeupmate.css' %}" />
-  </head>
-  <body>
-    {% if user.is_authenticated %}
-      <p>
-        Hi {{ user.username }}!
-        <form method="post" action="{% url 'logout' %}" style="display:inline;">
-          {% csrf_token %}
-          <button type="submit">Log out</button>
-        </form>
-      </p>
-    {% else %}
-      <a href="{% url 'login' %}">Log in</a> |
-      <a href="{% url 'signup' %}">Sign up</a>
-    {% endif %}
-
-    <hr />
-
-    <nav>
-      <a href="{% url 'product-list' %}">My Products</a> |
-      <a href="{% url 'product-add' %}">Add Product</a> |
-      <a href="{% url 'routine-list' %}">My Routines</a> |
-      <a href="{% url 'routine-add' %}">Create Routine</a>
-    </nav>
-    <hr />
-
-    <!-- prettier-ignore-start -->
-    {% block content %}
-      {# ——— Download CSV Button ——— #}
-      <p>
-        <a class="button" href="{% url 'export-products-csv' %}">📄 Download CSV</a>
-      </p>
-
-      {# Alert banner for products expiring within 7 days #}
-      {% if expiring_products %}
-        <div class="alert">
-          <h3>⚠️ Products Expiring Soon</h3>
-          <ul>
-            {% for p in expiring_products %}
-              <li>{{ p.name }} (in {{ p.days_until_expiration }} day{{ p.days_until_expiration|pluralize }})</li>
-            {% endfor %}
-          </ul>
-        </div>
+{# 
+  base.html
+  
+  This is the base template for MakeupMate.
+  It includes:
+  - Page title and CSS link
+  - Top navigation bar (login/logout, product and routine links)
+  - Content block placeholder for child templates
+  - Optional CSV download button and expiring products alert (shown if context provides them)
+  
+  Child templates should extend this with:
+  {% extends 'project/base.html' %}
+  #}
+  
+  {% load static %}
+  <!DOCTYPE html>
+  <html>
+    <head>
+      <title>MakeupMate</title>
+      <link rel="stylesheet" href="{% static 'css/makeupmate.css' %}" />
+    </head>
+    <body>
+      {% if user.is_authenticated %}
+        <p>
+          Hi {{ user.username }}!
+          <form method="post" action="{% url 'logout' %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit">Log out</button>
+          </form>
+        </p>
+      {% else %}
+        <a href="{% url 'login' %}">Log in</a> |
+        <a href="{% url 'signup' %}">Sign up</a>
       {% endif %}
-
-      <h1>My Products</h1>
-      <ul class="product-list">
-        {% for product in object_list %}
-          <li class="product-item">
-            {# Thumbnail or placeholder #}
-            {% if product.image %}
-              <img src="{{ product.image.url }}" alt="{{ product.name }}" class="thumb" />
-            {% else %}
-              <div class="thumb placeholder"></div>
-            {% endif %}
-
-            {# Name + icons #}
-            <a href="{% url 'product-detail' product.pk %}">
-              {{ product.name }}
-            </a>
-            {% if product.is_favorited %}♥️{% endif %}
-            {% if product.is_expiring_soon %}⚠️{% endif %}
-          </li>
-        {% empty %}
-          <li>No products found.</li>
-        {% endfor %}
-      </ul>
-    {% endblock %}
-    <!-- prettier-ignore-end -->
-
-  </body>
-</html>
+  
+      <hr />
+  
+      <nav>
+        <a href="{% url 'product-list' %}">My Products</a> |
+        <a href="{% url 'product-add' %}">Add Product</a> |
+        <a href="{% url 'routine-list' %}">My Routines</a> |
+        <a href="{% url 'routine-add' %}">Create Routine</a>
+      </nav>
+      <hr />
+  
+      <!-- Main content block -->
+      {% block content %}
+        <!-- Download CSV Button -->
+        <p>
+          <a class="button" href="{% url 'export-products-csv' %}">📄 Download CSV</a>
+        </p>
+  
+        <!-- Alert banner for expiring products -->
+        {% if expiring_products %}
+          <div class="alert">
+            <h3>⚠️ Products Expiring Soon</h3>
+            <ul>
+              {% for p in expiring_products %}
+                <li>{{ p.name }} (in {{ p.days_until_expiration }} day{{ p.days_until_expiration|pluralize }})</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+  
+        <h1>My Products</h1>
+        <ul class="product-list">
+          {% for product in object_list %}
+            <li class="product-item">
+              <!-- Thumbnail or placeholder -->
+              {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="thumb" />
+              {% else %}
+                <div class="thumb placeholder"></div>
+              {% endif %}
+  
+              <!-- Product name and icons -->
+              <a href="{% url 'product-detail' product.pk %}">
+                {{ product.name }}
+              </a>
+              {% if product.is_favorited %}♥️{% endif %}
+              {% if product.is_expiring_soon %}⚠️{% endif %}
+            </li>
+          {% empty %}
+            <li>No products found.</li>
+          {% endfor %}
+        </ul>
+      {% endblock %}
+  
+    </body>
+  </html>
+  

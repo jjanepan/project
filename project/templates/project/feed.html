@@ -1,31 +1,41 @@
+{# feed.html This template displays the user’s social feed: - Recently favorited
+products by followed users - Recently created routines by followed users It
+extends the base template and shows fallback messages if there’s no activity. #}
 {% extends 'project/base.html' %} {% block content %}
 <h1>Your Feed</h1>
 
+<!-- Recently Favorited Products Section -->
 <h2>Recently Favorited</h2>
 <ul>
   {% for fav in recent_faves %}
   <li>
+    <!-- Display username, product link, and date favorited -->
     <strong>{{ fav.user.username }}</strong> favorited
-    <a href="{% url 'product-detail' fav.product.pk %}"
-      >{{ fav.product.name }}</a
-    >
+    <a href="{% url 'product-detail' fav.product.pk %}">
+      {{ fav.product.name }}
+    </a>
     on {{ fav.created_at|date:"M j, Y" }}
   </li>
   {% empty %}
+  <!-- Fallback message if no favorites -->
   <li>No recent favorites.</li>
   {% endfor %}
 </ul>
 
+<!-- New Routines Section -->
 <h2>New Routines</h2>
 <ul>
   {% for r in recent_routines %}
   <li>
+    <!-- Display username, routine link, and creation date -->
     <strong>{{ r.owner.username }}</strong> created
-    <a href="{% url 'routine-detail' r.pk %}">{{ r.name }}</a>
+    <a href="{% url 'routine-detail' r.pk %}"> {{ r.name }} </a>
     on {{ r.date }}
   </li>
   {% empty %}
+  <!-- Fallback message if no new routines -->
   <li>No new routines.</li>
   {% endfor %}
 </ul>
+
 {% endblock %}

@@ -1,6 +1,12 @@
-{% extends 'project/base.html' %} {% block content %}
+{# user_profile.html This template displays a user’s profile page, including: -
+Follow/unfollow button (if viewing someone else’s profile) - List of the user’s
+favorited products - List of the user’s routines It extends the base template
+and expects these context variables: - target (User) - is_following (bool) -
+fav_products (QuerySet) - routines (QuerySet) #} {% extends 'project/base.html'
+%} {% block content %}
 <h1>{{ target.username }}’s Profile</h1>
 
+<!-- Follow/Unfollow button (if not viewing your own profile) -->
 {% if request.user != target %} {% if is_following %}
 <form method="post" action="{% url 'unfollow-user' target.username %}">
   {% csrf_token %}
@@ -15,6 +21,7 @@
 
 <hr />
 
+<!-- Favorited products section -->
 <h2>Favorited Products</h2>
 <ul>
   {% for p in fav_products %}
@@ -26,6 +33,7 @@
   {% endfor %}
 </ul>
 
+<!-- Routines section -->
 <h2>Routines</h2>
 <ul>
   {% for r in routines %}

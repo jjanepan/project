@@ -1,8 +1,16 @@
-{% extends 'project/base.html' %} {% block content %}
+{# usage_stats.html This template shows the user’s product usage statistics,
+including: - Current streak of consecutive days with product use - Top 3
+most-used products - Average uses per day over the last 30 days - Trend line
+(sparkline) for the last 7 days - Total uses by product It extends the base
+template and relies on these context variables: - current_streak, top_products,
+avg_per_day, daily_counts, start_date, end_date, products #} {% extends
+'project/base.html' %} {% block content %}
 <h1>Usage Statistics</h1>
 
+<!-- Current streak -->
 <p>🔥 Current streak: <strong>{{ current_streak }} days</strong></p>
 
+<!-- Top 3 most-used products -->
 <h2>Top 3 Most-Used Products</h2>
 <ol>
   {% for p in top_products %}
@@ -12,12 +20,14 @@
   {% endfor %}
 </ol>
 
+<!-- Average uses per day (last 30 days) -->
 <h2>Average Uses Per Day (30-day window)</h2>
 <p><strong>{{ avg_per_day|floatformat:2 }}</strong> uses/day</p>
 
+<!-- Last 7 days trend (sparkline style) -->
 <h2>Last 7 Days Trend</h2>
 <pre class="sparkline">
-{% for d, cnt in daily_counts %}{{ cnt|stringformat:"2d" }} {% endfor %}
+  {% for d, cnt in daily_counts %}{{ cnt|stringformat:"2d" }} {% endfor %}
   </pre
 >
 <p>
@@ -26,6 +36,7 @@
   </small>
 </p>
 
+<!-- Total uses by product -->
 <h2>Total Uses by Product</h2>
 <ul>
   {% for p in products %}
