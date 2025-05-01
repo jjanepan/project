@@ -1,0 +1,40 @@
+{% extends 'project/base.html' %} {% block content %}
+<h1>{{ target.username }}’s Profile</h1>
+
+{% if request.user != target %} {% if is_following %}
+<form method="post" action="{% url 'unfollow-user' target.username %}">
+  {% csrf_token %}
+  <button type="submit">Unfollow</button>
+</form>
+{% else %}
+<form method="post" action="{% url 'follow-user' target.username %}">
+  {% csrf_token %}
+  <button type="submit">Follow</button>
+</form>
+{% endif %} {% endif %}
+
+<hr />
+
+<h2>Favorited Products</h2>
+<ul>
+  {% for p in fav_products %}
+  <li>
+    <a href="{% url 'product-detail' p.pk %}">{{ p.name }}</a>
+  </li>
+  {% empty %}
+  <li>No favorites yet.</li>
+  {% endfor %}
+</ul>
+
+<h2>Routines</h2>
+<ul>
+  {% for r in routines %}
+  <li>
+    <a href="{% url 'routine-detail' r.pk %}">{{ r.name }}</a>
+    ({{ r.date }})
+  </li>
+  {% empty %}
+  <li>No routines yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

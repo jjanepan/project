@@ -18,11 +18,14 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('mini_fb/', include('mini_fb.urls')),
-    path('voters/', include('voter_analytics.urls')),  # Include voter_analytics URLs
+    path('voters/', include('voter_analytics.urls')),
+    path('project/', include('project.urls')),  # ← your preferred structure
+    path('accounts/', include('django.contrib.auth.urls')),   # login/logout
 ]
 
 if settings.DEBUG:

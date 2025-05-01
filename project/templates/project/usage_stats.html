@@ -1,0 +1,39 @@
+{% extends 'project/base.html' %} {% block content %}
+<h1>Usage Statistics</h1>
+
+<p>🔥 Current streak: <strong>{{ current_streak }} days</strong></p>
+
+<h2>Top 3 Most-Used Products</h2>
+<ol>
+  {% for p in top_products %}
+  <li>{{ p.name }} — used {{ p.used_count }} times</li>
+  {% empty %}
+  <li>No usage data yet.</li>
+  {% endfor %}
+</ol>
+
+<h2>Average Uses Per Day (30-day window)</h2>
+<p><strong>{{ avg_per_day|floatformat:2 }}</strong> uses/day</p>
+
+<h2>Last 7 Days Trend</h2>
+<pre class="sparkline">
+{% for d, cnt in daily_counts %}{{ cnt|stringformat:"2d" }} {% endfor %}
+  </pre
+>
+<p>
+  <small>
+    (counts for {{ start_date|date:"M j" }} through {{ end_date|date:"M j" }})
+  </small>
+</p>
+
+<h2>Total Uses by Product</h2>
+<ul>
+  {% for p in products %}
+  <li>
+    {{ p.name }} — used {{ p.used_count }} time{{ p.used_count|pluralize }}
+  </li>
+  {% empty %}
+  <li>No usage logged yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

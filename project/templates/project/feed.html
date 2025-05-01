@@ -1,0 +1,31 @@
+{% extends 'project/base.html' %} {% block content %}
+<h1>Your Feed</h1>
+
+<h2>Recently Favorited</h2>
+<ul>
+  {% for fav in recent_faves %}
+  <li>
+    <strong>{{ fav.user.username }}</strong> favorited
+    <a href="{% url 'product-detail' fav.product.pk %}"
+      >{{ fav.product.name }}</a
+    >
+    on {{ fav.created_at|date:"M j, Y" }}
+  </li>
+  {% empty %}
+  <li>No recent favorites.</li>
+  {% endfor %}
+</ul>
+
+<h2>New Routines</h2>
+<ul>
+  {% for r in recent_routines %}
+  <li>
+    <strong>{{ r.owner.username }}</strong> created
+    <a href="{% url 'routine-detail' r.pk %}">{{ r.name }}</a>
+    on {{ r.date }}
+  </li>
+  {% empty %}
+  <li>No new routines.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

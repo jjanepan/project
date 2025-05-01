@@ -1,0 +1,30 @@
+{% extends 'project/base.html' %} {% block content %}
+<h2>Manage Steps for {{ routine.name }}</h2>
+<form method="post">
+  {% csrf_token %} {{ formset.management_form }}
+  <table>
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Step Order</th>
+        <th>Notes</th>
+        <th>Remove?</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for form in formset %}
+      <tr>
+        <td>{{ form.product }}</td>
+        <td>{{ form.step_order }}</td>
+        <td>{{ form.notes }}</td>
+        <td>{% if form.instance.pk %} {{ form.DELETE }} {% endif %}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <button type="submit">Save Steps</button>
+</form>
+<p>
+  <a href="{% url 'routine-detail' routine.pk %}"> ← Back to Routine </a>
+</p>
+{% endblock %}

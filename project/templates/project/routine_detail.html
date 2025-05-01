@@ -1,0 +1,17 @@
+{% extends 'project/base.html' %} {% block content %}
+<h1>{{ object.name }}</h1>
+<p>{{ object.description }}</p>
+
+<p>
+  <a href="{% url 'routine-manage-steps' object.pk %}">Edit Steps</a>
+</p>
+
+<h3>Steps</h3>
+<ol>
+  {% for item in object.items.all %}
+  <li>{{ item.product.name }} — {{ item.notes }}</li>
+  {% empty %}
+  <li>No steps defined.</li>
+  {% endfor %}
+</ol>
+{% endblock %}

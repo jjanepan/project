@@ -1,0 +1,151 @@
+/* style.css – girly & cute theme */
+
+body {
+  background: #fff5f7; /* very pale pink */
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0 1rem;
+}
+
+h1, h2, h3 {
+  font-family: 'Georgia', serif;
+  color: #d6336c; /* bubblegum pink */
+}
+
+nav a {
+  color: #d6336c;
+  text-decoration: none;
+  margin-right: 1rem;
+  font-weight: bold;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+button {
+  background: #ffafcc; /* pastel pink */
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+button:hover {
+  background: #ff7bac;
+}
+
+form {
+  background: #ffffff;
+  border: 2px solid #ffafcc;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  max-width: 600px;
+  margin-bottom: 2rem;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ffafcc;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+th, td {
+  border: 1px solid #ffafcc;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+th {
+  background: #ffe3ec; /* very pale pink */
+}
+
+a {
+  color: #d6336c;
+}
+
+a:hover {
+  color: #ff7bac;
+}
+/* Expiration alert box */
+.alert {
+  background: #fff1f2;      /* very pale red */
+  border: 1px solid #f06595; /* pinkish-red */
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.alert h3 {
+  margin-top: 0;
+  color: #d6336c;
+}
+.product-list {
+  list-style: none;
+  padding: 0;
+}
+
+.product-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.product-item .thumb {
+  width: 50px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 0.25rem;
+  margin-right: 0.75rem;
+  border: 1px solid #ffafcc;
+}
+
+.product-item .placeholder {
+  background: #ffe3ec;
+}
+.dashboard-cards {
+  display: flex;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+.card {
+  background: #ffe3ec;
+  border: 1px solid #ffafcc;
+  border-radius: 0.5rem;
+  padding: 1rem 2rem;
+  text-align: center;
+  flex: 1;
+}
+.card h2 {
+  font-size: 2.5rem;
+  margin: 0;
+  color: #d6336c;
+}
+.card p {
+  margin: 0.5rem 0 0;
+  color: #333;
+}
+/* Sparkline styling */
+.sparkline {
+  font-family: monospace;
+  background: #fff0f6;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  display: inline-block;
+}
+.sparkline small {
+  display: block;
+  color: #666;
+  margin-top: 0.25rem;
+}

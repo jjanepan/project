@@ -31,8 +31,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mini_fb',  # app
+    'mini_fb',           # mini Facebook clone
     'voter_analytics',
+    'project',           # MakeupMate app
 ]
 
 MIDDLEWARE = [
@@ -50,10 +51,8 @@ ROOT_URLCONF = 'cs412.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [
-            os.path.join(BASE_DIR, 'mini_fb', 'templates'),
-        ],
-
+        # No global DIRS: each app’s own templates/ will be auto-discovered
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -79,6 +78,7 @@ DATABASES = {
     }
 }
 
+
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
@@ -97,13 +97,12 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
 USE_TZ = True
 
@@ -111,25 +110,29 @@ USE_TZ = True
 # 2) Static and Media Files Configuration
 #    (Used in local development and production)
 
-# Where 'collectstatic' puts your files
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-# The base URL for static files
 STATIC_URL = '/static/'
 
-# Where your local (dev) static files live
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
-# Media (if you have user-uploaded files)
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
+
 
 # 3) Adjust URLs if you're on cs-webapps.bu.edu
 CS_DEPLOYMENT_HOSTNAME = 'cs-webapps.bu.edu'
 if socket.gethostname() == CS_DEPLOYMENT_HOSTNAME:
     STATIC_URL = '/jjanepan/static/'
     MEDIA_URL = '/jjanepan/media/'
+
+
+# Redirect URLs for built-in auth views
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = 'product-list'
+LOGOUT_REDIRECT_URL = 'login'
+
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

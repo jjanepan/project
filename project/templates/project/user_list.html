@@ -1,0 +1,12 @@
+{% extends 'project/base.html' %} {% block content %}
+<h1>All Users</h1>
+<ul>
+  {% for u in users %}
+  <li>
+    <a href="{% url 'user-profile' u.username %}">{{ u.username }}</a>
+  </li>
+  {% empty %}
+  <li>No other users yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

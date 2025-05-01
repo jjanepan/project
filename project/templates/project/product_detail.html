@@ -1,0 +1,83 @@
+{% extends 'project/base.html' %}
+
+{% block content %}
+  <h1>{{ object.name }}</h1>
+
+  {# — Owner & Follow/Unfollow — #}
+  <p>
+    Owner:
+    <a href="{% url 'user-profile' object.owner.username %}">
+      {{ object.owner.username }}
+    </a>
+    {% if request.user.is_authenticated and request.user != object.owner %}
+      {% if is_following_owner %}
+        <form method="post"
+              action="{% url 'unfollow-user' object.owner.username %}"
+              style="display:inline;">
+          {% csrf_token %}
+          <button type="submit">Unfollow</button>
+        </form>
+      {% else %}
+        <form method="post"
+              action="{% url 'follow-user' object.owner.username %}"
+              style="display:inline;">
+          {% csrf_token %}
+          <button type="submit">Follow</button>
+        </form>
+      {% endif %}
+    {% endif %}
+  </p>
+
+  <p>Brand: {{ object.brand }} | Shade: {{ object.shade }}</p>
+  <p>Category: {{ object.category.name }} | Price: ${{ object.price }}</p>
+  <p>Expires: {{ object.expiration_date }}</p>
+
+  {% if object.image %}
+    <img src="{{ object.image.url }}" width="200" alt="{{ object.name }}" />
+  {% endif %}
+
+  {# — Favorite / Unfavorite — #}
+  <form method="post" action="{% url 'toggle-favorite' object.pk %}">
+    {% csrf_token %}
+    {% if is_favorited %}
+      <button type="submit">Unfavorite</button>
+    {% else %}
+      <button type="submit">Favorite</button>
+    {% endif %}
+  </form>
+
+  {# — Mark as Used Today — #}
+  <form method="post" action="{% url 'product-use' object.pk %}">
+    {% csrf_token %}
+    <button type="submit">Mark as Used Today</button>
+  </form>
+  <p><strong>Total uses:</strong> {{ object.usage_logs.count }}</p>
+
+  {# — Reviews Section — #}
+  {% if review_count > 0 %}
+    <p>
+      Average Rating: {{ avg_rating|floatformat:1 }}/5
+      ({{ review_count }} review{{ review_count|pluralize }})
+    </p>
+  {% else %}
+    <p>No ratings yet.</p>
+  {% endif %}
+
+  <h3>Reviews</h3>
+  <ul>
+    {% for review in reviews %}
+      <li>
+        <strong>{{ review.user.username }}</strong> &mdash;
+        {{ review.rating }}/5<br />
+        {{ review.text }}<br />
+        <small>{{ review.created_at|date:"M j, Y H:i" }}</small>
+      </li>
+    {% empty %}
+      <li>No reviews yet.</li>
+    {% endfor %}
+  </ul>
+
+  <p>
+    <a href="{% url 'add-review' object.pk %}">Write a review</a>
+  </p>
+{% endblock %}

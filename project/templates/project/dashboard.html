@@ -1,0 +1,17 @@
+{% extends 'project/base.html' %} {% block content %}
+<h1>Welcome, {{ user.username }}!</h1>
+<div class="dashboard-cards">
+  <div class="card">
+    <h2>{{ total_products }}</h2>
+    <p>Products</p>
+  </div>
+  <div class="card">
+    <h2>{{ total_routines }}</h2>
+    <p>Routines</p>
+  </div>
+  <div class="card">
+    <h2>{{ expiring_soon }}</h2>
+    <p>Expiring soon</p>
+  </div>
+</div>
+{% endblock %}
